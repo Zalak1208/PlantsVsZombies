@@ -1,5 +1,16 @@
-# PythonPlantsVsZombies
-  PlantsVsZombie is a classic game in which player prtotects their home from the coming horde of zombies, by strategically planting various types of plants with unique abilities.These plants, ranging from pea shooters to sunflowers, are used to fend off the zombies and prevent them from reaching the house.The game’s design emphasizes both strategic decision-making and adaptive gameplay, providing an increasingly complex and rewarding experience as players progress.
+# PlantsVsZombies
+PlantsVsZombie is a classic game in which player prtotects their home from the coming horde of zombies, by strategically planting various types of plants with unique abilities.These plants, ranging from pea shooters to sunflowers, are used to fend off the zombies and prevent them from reaching the house.The game is designed to encourage strategic thinking and adaptability, offering a deeper and more rewarding experience as players advance.
+
+# Resources
+* Bullets: This consists of different types of bullets named as:
+   * BulletMushRoom<br>
+   ![BulletMushRoom](resources/graphics/Bullets/BulletMushRoom/BulletMushRoom_0.png)
+   * SnowPea<br>
+   ![SnowPea](resources/graphics/Bullets/PeaIce/PeaIce_0.png)
+   * PeaNormal <br>
+    ![PeaNormal](resources/graphics/Bullets/PeaNormal/PeaNormal_0.png)
+ 
+
   
 * implement plants: sunflower, peashooter, wallnut, snowpeashooter, cherrybomb, threepeashooter, chomper, puffshroom, potatomine, spikeweed, scaredyshroom, squash, scaredyshroom, jalapeno, sunShroom, iceShroom, hypnoShroom.
 * implement zombies: zombie, flagzombie, coneheadzombie, bucketheadzombie, newspaperzombie.
