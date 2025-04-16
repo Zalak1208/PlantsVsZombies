@@ -360,141 +360,210 @@ Carries a newspaper that acts as a shield. Speeds up and gets angry when it’s 
 
 ---
 
+## **1. Module: `source.tool`**
 
+### **Class: `State`**
+- **Purpose**: A base class for managing game states (e.g., menu, level, victory screen).
+- **Key Attributes**:
+  - `start_time`: Tracks when the state started.
+  - `current_time`: Tracks the current time in the state.
+  - `done`: Indicates if the state is finished.
+  - `next`: The next state to transition to.
+  - `persist`: Data shared between states.
+- **Key Methods**:
+  - `startup(current_time, persist)`: Abstract method to initialize the state.
+  - `cleanup()`: Cleans up the state and returns persistent data.
+  - `update(surface, keys, current_time)`: Abstract method to update the state.
 
-## Class: Map
-
-The `Map` class manages a 2D grid-based map, including checking if grid coordinates are valid, converting between pixel and grid coordinates, and allowing interactions such as setting tile types and randomly selecting positions.
-
-### Methods:
-
-1) `__init__(self, width, height)`: Initializes the map with the specified width and height, creating a grid with empty tiles.
-2) `isValid(self, map_x, map_y)`: Checks if the provided grid coordinates are within the valid bounds of the map.
-3) `isMovable(self, map_x, map_y)`: Determines if the tile at the specified grid coordinates is empty and can be moved onto.
-4) `getMapIndex(self, x, y)` : Converts pixel coordinates to grid indices, accounting for offset and grid size.
-5) `getMapGridPos(self, map_x, map_y)` : Converts grid coordinates to pixel positions, used for rendering objects on the map.
-6) `setMapGridType(self, map_x, map_y, type)`: Sets the type of the grid tile at the given coordinates (e.g., empty, obstacle, etc.).
-7) `getRandomMapIndex(self)` : Returns a random valid grid index within the map dimensions.
-8) `showPlant(self, x, y)` : Determines if a plant can be shown at a given pixel position, returning the corresponding grid position if valid.
-
-### Summary:
-
-The `Map` class is used to manage a tile-based grid map in 2D game development, providing essential functions for tile validation, coordinate transformation, and handling game object placement. It plays a key role in ensuring proper layout and interaction within a game’s environment.
-
----
-# Class Documentation
-
-## `Card`
-### Use:
-The `Card` class represents a card that can be selected and used in a game, with properties like sun cost, frozen time, and the ability to display and interact with it.
-
-### Methods:
-1) `__init__(self, x, y, name_index, scale=0.78)` : Initializes the card with position, name, sun cost, frozen time, and scaling.
-2) `loadFrame(self, name, scale)` : Loads the frame image for the card and scales it accordingly.
-3) `checkMouseClick(self, mouse_pos)` : Checks if the mouse click is within the card's bounds.
-4) `canClick(self, sun_value, current_time)` : Determines if the card can be clicked based on the sun value and frozen time.
-5) `canSelect(self)` : Checks if the card can be selected.
-6) `setSelect(self, can_select)` : Sets whether the card can be selected or not.
-7) `setFrozenTime(self, current_time)` : Sets the frozen time of the card.
-8) `createShowImage(self, sun_value, current_time)` : Creates a visual representation of the card, including cooldown and disable status.
-9) `update(self, sun_value, current_time)` : Updates the card's image based on sun value and current time.
-10) `draw(self, surface)` : Draws the card onto the surface.
-
-### Summary:
-The `Card` class is essential for representing interactive cards in a game. It handles the logic of selecting, freezing, and displaying cards based on gameplay conditions.
+### **Class: `Control`**
+- **Purpose**: Manages the game loop, state transitions, and input handling.
+- **Key Attributes**:
+  - `screen`: The game display surface.
+  - `state_dict`: A dictionary of all game states.
+  - `state`: The current active state.
+  - `keys`: Tracks keyboard input.
+  - `mouse_pos`: Tracks mouse position.
+- **Key Methods**:
+  - `setup_states(state_dict, start_state)`: Initializes the game states.
+  - `update()`: Updates the current state and handles state transitions.
+  - `event_loop()`: Processes user input events.
+  - `main()`: Runs the main game loop.
 
 ---
 
-## `MenuBar`
-### Use:
-The `MenuBar` class manages the menu bar, displaying cards and the sun value, and handling card interactions in the game.
+## **2. Module: `source.component.map`**
 
-### Methods:
-1) `__init__(self, card_list, sun_value)` : Initializes the menu bar with the provided list of cards and sun value.
-2) `loadFrame(self, name)` : Loads the background frame for the menu.
-3) `update(self, current_time)` : Updates the state of the cards in the menu based on the current time.
-4) `createImage(self, x, y, num)` : Creates a custom image for the menu bar based on the number of cards.
-5) `setupCards(self, card_list)` : Sets up the cards in the menu bar.
-6) `checkCardClick(self, mouse_pos)` : Checks if a card has been clicked and is valid to select.
-7) `checkMenuBarClick(self, mouse_pos)` : Checks if the menu bar itself has been clicked.
-8) `decreaseSunValue(self, value)` : Decreases the sun value by the specified amount.
-9) `increaseSunValue(self, value)` : Increases the sun value by the specified amount.
-10) `setCardFrozenTime(self, plant_name)` : Sets the frozen time for a specific plant's card.
-11) `drawSunValue(self)` : Draws the sun value on the menu bar.
-12) `draw(self, surface)` : Draws the menu bar and its components onto the surface.
-
-### Summary:
-The `MenuBar` class is responsible for rendering and managing the interaction of cards in the game’s UI, ensuring players can select and interact with cards based on their available sun value.
+### **Class: `Map`**
+- **Purpose**: Manages the grid-based game map.
+- **Key Attributes**:
+  - `width`: The width of the map in grid cells.
+  - `height`: The height of the map in grid cells.
+  - `map`: A 2D list representing the map's grid state.
+- **Key Methods**:
+  - `isValid(map_x, map_y)`: Checks if a grid position is within bounds.
+  - `isMovable(map_x, map_y)`: Checks if a grid cell is empty.
+  - `getMapIndex(x, y)`: Converts pixel coordinates to grid indices.
+  - `getMapGridPos(map_x, map_y)`: Converts grid indices to pixel coordinates.
+  - `setMapGridType(map_x, map_y, type)`: Sets the type of a grid cell.
+  - `getRandomMapIndex()`: Returns a random grid position.
+  - `showPlant(x, y)`: Determines if a plant can be placed at a given position.
 
 ---
 
-## `Panel`
-### Use:
-The `Panel` class represents the panel where players select cards. It allows for adding and removing cards and managing the interaction with the selected cards.
+## **3. Module: `source.component.menubar`**
 
-### Methods:
-1) `__init__(self, card_list, sun_value)` : Initializes the panel with a list of cards and sun value.
-2) `loadFrame(self, name)` : Loads the background frame for the panel.
-3) `loadImages(self, sun_value)` : Loads the necessary images for the panel, including the sun value display.
-4) `setupCards(self, card_list)` : Sets up the cards in the panel.
-5) `checkCardClick(self, mouse_pos)` : Checks if a card has been clicked for selection or removal.
-6) `addCard(self, card)` : Adds a selected card to the panel.
-7) `deleteCard(self, index)` : Deletes a card from the panel.
-8) `checkStartButtonClick(self, mouse_pos)` : Checks if the start button has been clicked.
-9) `getSelectedCards(self)` : Returns the list of selected card indices.
-10) `draw(self, surface)` : Draws the panel and its components, including selected cards and sun value.
+### **Class: `Card`**
+- **Purpose**: Represents a plant card in the menu bar or card panel.
+- **Key Attributes**:
+  - `rect`: The position and size of the card.
+  - `name_index`: Index of the card in the card list.
+  - `sun_cost`: The sun cost of the plant.
+  - `frozen_time`: Cooldown time after the card is used.
+- **Key Methods**:
+  - `checkMouseClick(mouse_pos)`: Checks if the card was clicked.
+  - `canClick(sun_value, current_time)`: Determines if the card can be clicked.
+  - `setFrozenTime(current_time)`: Updates the card's cooldown timer.
+  - `draw(surface)`: Draws the card on the given surface.
 
-### Summary:
-The `Panel` class manages the player's card selection and displays the selected cards on the UI. It ensures players can select up to a fixed number of cards and begin the game with their selections.
+### **Class: `MenuBar`**
+- **Purpose**: Represents the menu bar where players select plants.
+- **Key Attributes**:
+  - `rect`: The position and size of the menu bar.
+  - `sun_value`: The player's current sun value.
+  - `card_list`: A list of `Card` objects in the menu bar.
+- **Key Methods**:
+  - `setupCards(card_list)`: Initializes the cards in the menu bar.
+  - `checkCardClick(mouse_pos)`: Checks if a card was clicked.
+  - `decreaseSunValue(value)`: Decreases the player's sun value.
+  - `draw(surface)`: Draws the menu bar and its cards.
+
+### **Class: `Panel`**
+- **Purpose**: Represents the card selection panel before starting a level.
+- **Key Attributes**:
+  - `selected_cards`: List of cards selected by the player.
+  - `card_list`: List of all available cards in the panel.
+- **Key Methods**:
+  - `setupCards(card_list)`: Initializes the cards in the panel.
+  - `checkCardClick(mouse_pos)`: Handles card selection and deselection.
+  - `checkStartButtonClick(mouse_pos)`: Checks if the "Start" button was clicked.
+  - `draw(surface)`: Draws the panel and its cards.
 
 ---
 
-## `MoveCard`
-### Use:
-The `MoveCard` class represents a card in motion, typically when being moved into the player's deck or hand.
+## **4. Module: `source.component.plant`**
 
-### Methods:
-1) `__init__(self, x, y, card_name, plant_name, scale=0.78)` : Initializes the moving card with position, name, and scale.
-2) `loadFrame(self, name, scale)` : Loads the image for the moving card.
-3) `checkMouseClick(self, mouse_pos)` : Checks if the mouse click is within the moving card’s bounds.
-4) `createShowImage(self)` : Creates a visual representation of the moving card.
-5) `update(self, left_x, current_time)` : Updates the card's position based on the current time.
-6) `draw(self, surface)` : Draws the moving card onto the surface.
+### **Class: `Plant`**
+- **Purpose**: A base class for all plants in the game.
+- **Key Attributes**:
+  - `name`: The name of the plant.
+  - `health`: The health of the plant.
+  - `state`: The current state of the plant (e.g., idle, attack).
+  - `bullet_group`: The group of bullets fired by the plant.
+- **Key Methods**:
+  - `canAttack(zombie)`: Checks if the plant can attack a zombie.
+  - `setAttack()`: Sets the plant to attack mode.
+  - `setIdle()`: Sets the plant to idle mode.
+  - `update(game_info)`: Updates the plant's state and animation.
 
-### Summary:
-The `MoveCard` class handles the behavior of cards that are being moved within the game. It is used for animating cards entering the player's deck or hand.
+### **Class: `SunFlower`**
+- **Purpose**: Produces sun over time.
+- **Key Attributes**:
+  - `sun_timer`: Tracks the time since the last sun was produced.
+- **Key Methods**:
+  - `idling()`: Produces sun at regular intervals.
+
+### **Class: `PeaShooter`**
+- **Purpose**: Shoots peas at zombies.
+- **Key Attributes**:
+  - `shoot_timer`: Tracks the time since the last shot.
+- **Key Methods**:
+  - `attacking()`: Fires a pea at regular intervals.
 
 ---
 
-## `MoveBar`
-### Use:
-The `MoveBar` class manages a bar that contains cards that move towards the player. It generates new cards at regular intervals and allows for interaction with them.
+## **5. Module: `source.component.zombie`**
 
-### Methods:
-1) `__init__(self, card_pool)` : Initializes the move bar with a pool of cards.
-2) `loadFrame(self, name)` : Loads the background frame for the move bar.
-3) `createCard(self)` : Creates a new card in the move bar.
-4) `update(self, current_time)` : Updates the movement of the cards in the move bar.
-5) `checkCardClick(self, mouse_pos)` : Checks if a card has been clicked in the move bar.
-6) `checkMenuBarClick(self, mouse_pos)` : Checks if the move bar itself has been clicked.
-7) `deleateCard(self, card)` : Deletes a card from the move bar.
-8) `draw(self, surface)` : Draws the move bar and its components, including the cards.
+### **Class: `Zombie`**
+- **Purpose**: A base class for all zombies in the game.
+- **Key Attributes**:
+  - `name`: The name of the zombie.
+  - `health`: The health of the zombie.
+  - `state`: The current state of the zombie (e.g., walk, attack).
+  - `speed`: The movement speed of the zombie.
+- **Key Methods**:
+  - `setWalk()`: Sets the zombie to walk mode.
+  - `setAttack(prey)`: Sets the zombie to attack mode.
+  - `setDie()`: Sets the zombie to die mode.
+  - `update(game_info)`: Updates the zombie's state and animation.
 
-### Summary:
-The `MoveBar` class handles the cards that appear and move towards the player. It manages the creation, movement, and interaction with these cards during the gameplay.
+### **Class: `NormalZombie`**
+- **Purpose**: Represents a basic zombie.
+- **Key Attributes**:
+  - Inherits all attributes from `Zombie`.
+- **Key Methods**:
+  - Inherits all methods from `Zombie`.
 
+### **Class: `ConeHeadZombie`**
+- **Purpose**: A zombie with extra health due to its cone helmet.
+- **Key Attributes**:
+  - `helmet`: Indicates if the zombie has a helmet.
+- **Key Methods**:
+  - Inherits all methods from `Zombie`.
 
+---
 
+## **6. Module: `source.state.mainmenu`**
 
+### **Class: `Menu`**
+- **Purpose**: Represents the main menu of the game.
+- **Key Attributes**:
+  - `bg_image`: The background image of the menu.
+  - `option_frames`: Frames for the menu options.
+- **Key Methods**:
+  - `setupBackground()`: Sets up the menu background.
+  - `checkOptionClick(mouse_pos)`: Checks if a menu option was clicked.
+  - `update(surface, current_time, mouse_pos, mouse_click)`: Updates the menu state.
 
+---
 
+## **7. Module: `source.state.screen`**
 
+### **Class: `Screen`**
+- **Purpose**: A base class for victory and defeat screens.
+- **Key Attributes**:
+  - `end_time`: The duration of the screen.
+  - `image`: The image displayed on the screen.
+- **Key Methods**:
+  - `setupImage(name)`: Sets up the screen image.
+  - `update(surface, current_time, mouse_pos, mouse_click)`: Updates the screen state.
 
+### **Class: `GameVictoryScreen`**
+- **Purpose**: Represents the victory screen.
+- **Key Methods**:
+  - `getImageName()`: Returns the name of the victory image.
 
- 
+### **Class: `GameLoseScreen`**
+- **Purpose**: Represents the defeat screen.
+- **Key Methods**:
+  - `getImageName()`: Returns the name of the defeat image.
 
-  
+---
 
+## **8. Module: `source.state.level`**
+
+### **Class: `Level`**
+- **Purpose**: Manages the gameplay for a level.
+- **Key Attributes**:
+  - `map`: The game map for the level.
+  - `zombie_list`: A list of zombies to spawn.
+  - `plant_groups`: Groups of plants in the level.
+- **Key Methods**:
+  - `loadMap()`: Loads the level's map data.
+  - `setupBackground()`: Sets up the level's background.
+  - `setupZombies()`: Prepares the zombie spawn list.
+  - `update(surface, current_time, mouse_pos, mouse_click)`: Updates the level state.
+
+---
 
 # Requirement
 * Python 3.7 
