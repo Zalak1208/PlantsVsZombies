@@ -358,15 +358,97 @@ Takes a lot of hits due to the metal bucket on his head. Strong and persistent.
 Carries a newspaper that acts as a shield. Speeds up and gets angry when it’s destroyed.  
 ![Newspaper Zombie](resources/graphics/Zombies/NewspaperZombie/NewspaperZombie/NewspaperZombie_0.png)
 
+---
+
+
+# Map Class in Python Game Development
+
+**Author:** `marble_xu`  
+**Modules Used:** `random`, `pygame`, custom modules `tool` and `constants`
+
+---
+
+## Purpose
+
+The `Map` class is designed for managing a grid-based map in a 2D game using `pygame`. It handles:
+
+- Grid setup  
+- Validating movements  
+- Coordinate transformations  
+- Random position generation  
+- Display logic for placing plants or objects  
+
+---
+
+## Class: `Map`
+
+### `__init__(self, width, height)`
+- Initializes the map with given width and height.
+- Creates a 2D list `self.map` filled with `0`s (default type, e.g., empty tile).
+
+---
+
+## Core Methods
+
+### `isValid(self, map_x, map_y)`
+- Returns `True` if the grid position is within map bounds.
+
+### `isMovable(self, map_x, map_y)`
+- Returns `True` if the tile at the given position is empty (`c.MAP_EMPTY`).
+
+---
+
+## Coordinate Mapping
+
+### `getMapIndex(self, x, y)`
+- Converts pixel coordinates to map grid indices.
+- Adjusts using constants:
+  - `c.MAP_OFFSET_X`, `c.MAP_OFFSET_Y`
+  - `c.GRID_X_SIZE`, `c.GRID_Y_SIZE`
+
+### `getMapGridPos(self, map_x, map_y)`
+- Converts grid indices back to pixel position.
+- Centers the position within the grid cell for correct placement.
+
+---
+
+## Map Editing
+
+### `setMapGridType(self, map_x, map_y, type)`
+- Changes the type of a specific tile on the map.
+
+### `getRandomMapIndex(self)`
+- Returns a random valid `(map_x, map_y)` index within the map.
+
+---
+
+## Gameplay Integration
+
+### `showPlant(self, x, y)`
+- Determines if a plant can be shown at pixel position `(x, y)`.
+- Converts to grid index → checks validity and movability → returns pixel position for display if valid.
+
+---
+
+## Dependencies
+
+- `c` is expected to be a `constants` module with:
+  - `MAP_EMPTY`
+  - `GRID_X_SIZE`, `GRID_Y_SIZE`
+  - `MAP_OFFSET_X`, `MAP_OFFSET_Y`
+- `tool` is imported from other part of code.
+
+---
+
+## Summary
+
+The `Map` class is a foundational utility for grid-based object management in games. It abstracts coordinate transformations, ensures logical map constraints, and supports dynamic object placement like planting.
+
 
  
 
   
-* implement plants: sunflower, peashooter, wallnut, snowpeashooter, cherrybomb, threepeashooter, chomper, puffshroom, potatomine, spikeweed, scaredyshroom, squash, scaredyshroom, jalapeno, sunShroom, iceShroom, hypnoShroom.
-* implement zombies: zombie, flagzombie, coneheadzombie, bucketheadzombie, newspaperzombie.
-* use json file to store level data (e.g.position and time of zombies, background info)
-* support to select plant cards at the beginning of the level
-* support day level, night level, moving card select level and wallnut bowling level
+
 
 # Requirement
 * Python 3.7 
