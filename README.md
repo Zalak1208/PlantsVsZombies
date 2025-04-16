@@ -379,70 +379,21 @@ The `Map` class is designed for managing a grid-based map in a 2D game using `py
 - Display logic for placing plants or objects  
 
 ---
+## Class: Map
 
-## Class: `Map`
+The `Map` class manages a grid-based game map. It initializes a 2D grid using the given width and height, with each cell representing a tile.
 
-### `__init__(self, width, height)`
-- Initializes the map with given width and height.
-- Creates a 2D list `self.map` filled with `0`s (default type, e.g., empty tile).
+Key features include:
+- **Validation**: Checks if a grid index is within bounds (`isValid`) and if a tile is empty (`isMovable`).
+- **Coordinate Conversion**: Translates pixel coordinates to grid indices (`getMapIndex`) and vice versa (`getMapGridPos`) using offset and size constants from the `constants` module.
+- **Map Editing**: Allows setting tile types (`setMapGridType`) and selecting random tile positions (`getRandomMapIndex`).
+- **Gameplay Logic**: Determines if a plant can be shown at a given pixel position (`showPlant`), returning the correct position for rendering if valid and empty.
 
----
+### Dependencies
+Relies on a `constants` module (`c`) for values like grid size, offsets, and tile types. The `tool` module is imported but not used in this snippet.
 
-## Core Methods
-
-### `isValid(self, map_x, map_y)`
-- Returns `True` if the grid position is within map bounds.
-
-### `isMovable(self, map_x, map_y)`
-- Returns `True` if the tile at the given position is empty (`c.MAP_EMPTY`).
-
----
-
-## Coordinate Mapping
-
-### `getMapIndex(self, x, y)`
-- Converts pixel coordinates to map grid indices.
-- Adjusts using constants:
-  - `c.MAP_OFFSET_X`, `c.MAP_OFFSET_Y`
-  - `c.GRID_X_SIZE`, `c.GRID_Y_SIZE`
-
-### `getMapGridPos(self, map_x, map_y)`
-- Converts grid indices back to pixel position.
-- Centers the position within the grid cell for correct placement.
-
----
-
-## Map Editing
-
-### `setMapGridType(self, map_x, map_y, type)`
-- Changes the type of a specific tile on the map.
-
-### `getRandomMapIndex(self)`
-- Returns a random valid `(map_x, map_y)` index within the map.
-
----
-
-## Gameplay Integration
-
-### `showPlant(self, x, y)`
-- Determines if a plant can be shown at pixel position `(x, y)`.
-- Converts to grid index → checks validity and movability → returns pixel position for display if valid.
-
----
-
-## Dependencies
-
-- `c` is expected to be a `constants` module with:
-  - `MAP_EMPTY`
-  - `GRID_X_SIZE`, `GRID_Y_SIZE`
-  - `MAP_OFFSET_X`, `MAP_OFFSET_Y`
-- `tool` is imported from other part of code.
-
----
-
-## Summary
-
-The `Map` class is a foundational utility for grid-based object management in games. It abstracts coordinate transformations, ensures logical map constraints, and supports dynamic object placement like planting.
+### Purpose
+Useful for games with tile-based logic, ensuring proper object placement and coordinate handling.
 
 
  
