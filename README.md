@@ -361,39 +361,134 @@ Carries a newspaper that acts as a shield. Speeds up and gets angry when it’s 
 ---
 
 
-# Map Class in Python Game Development
 
-**Author:** `marble_xu`  
-**Modules Used:** `random`, `pygame`, custom modules `tool` and `constants`
-
----
-
-## Purpose
-
-The `Map` class is designed for managing a grid-based map in a 2D game using `pygame`. It handles:
-
-- Grid setup  
-- Validating movements  
-- Coordinate transformations  
-- Random position generation  
-- Display logic for placing plants or objects  
-
----
 ## Class: Map
 
-The `Map` class manages a grid-based game map. It initializes a 2D grid using the given width and height, with each cell representing a tile.
+The `Map` class manages a 2D grid-based map, including checking if grid coordinates are valid, converting between pixel and grid coordinates, and allowing interactions such as setting tile types and randomly selecting positions.
 
-Key features include:
-- **Validation**: Checks if a grid index is within bounds (`isValid`) and if a tile is empty (`isMovable`).
-- **Coordinate Conversion**: Translates pixel coordinates to grid indices (`getMapIndex`) and vice versa (`getMapGridPos`) using offset and size constants from the `constants` module.
-- **Map Editing**: Allows setting tile types (`setMapGridType`) and selecting random tile positions (`getRandomMapIndex`).
-- **Gameplay Logic**: Determines if a plant can be shown at a given pixel position (`showPlant`), returning the correct position for rendering if valid and empty.
+### Methods:
 
-### Dependencies
-Relies on a `constants` module (`c`) for values like grid size, offsets, and tile types. The `tool` module is imported but not used in this snippet.
+1) `__init__(self, width, height)`: Initializes the map with the specified width and height, creating a grid with empty tiles.
+2) `isValid(self, map_x, map_y)`: Checks if the provided grid coordinates are within the valid bounds of the map.
+3) `isMovable(self, map_x, map_y)`: Determines if the tile at the specified grid coordinates is empty and can be moved onto.
+4) `getMapIndex(self, x, y)` : Converts pixel coordinates to grid indices, accounting for offset and grid size.
+5) `getMapGridPos(self, map_x, map_y)` : Converts grid coordinates to pixel positions, used for rendering objects on the map.
+6) `setMapGridType(self, map_x, map_y, type)`: Sets the type of the grid tile at the given coordinates (e.g., empty, obstacle, etc.).
+7) `getRandomMapIndex(self)` : Returns a random valid grid index within the map dimensions.
+8) `showPlant(self, x, y)` : Determines if a plant can be shown at a given pixel position, returning the corresponding grid position if valid.
 
-### Purpose
-Useful for games with tile-based logic, ensuring proper object placement and coordinate handling.
+### Summary:
+
+The `Map` class is used to manage a tile-based grid map in 2D game development, providing essential functions for tile validation, coordinate transformation, and handling game object placement. It plays a key role in ensuring proper layout and interaction within a game’s environment.
+
+---
+# Class Documentation
+
+## `Card`
+### Use:
+The `Card` class represents a card that can be selected and used in a game, with properties like sun cost, frozen time, and the ability to display and interact with it.
+
+### Methods:
+1) `__init__(self, x, y, name_index, scale=0.78)` : Initializes the card with position, name, sun cost, frozen time, and scaling.
+2) `loadFrame(self, name, scale)` : Loads the frame image for the card and scales it accordingly.
+3) `checkMouseClick(self, mouse_pos)` : Checks if the mouse click is within the card's bounds.
+4) `canClick(self, sun_value, current_time)` : Determines if the card can be clicked based on the sun value and frozen time.
+5) `canSelect(self)` : Checks if the card can be selected.
+6) `setSelect(self, can_select)` : Sets whether the card can be selected or not.
+7) `setFrozenTime(self, current_time)` : Sets the frozen time of the card.
+8) `createShowImage(self, sun_value, current_time)` : Creates a visual representation of the card, including cooldown and disable status.
+9) `update(self, sun_value, current_time)` : Updates the card's image based on sun value and current time.
+10) `draw(self, surface)` : Draws the card onto the surface.
+
+### Summary:
+The `Card` class is essential for representing interactive cards in a game. It handles the logic of selecting, freezing, and displaying cards based on gameplay conditions.
+
+---
+
+## `MenuBar`
+### Use:
+The `MenuBar` class manages the menu bar, displaying cards and the sun value, and handling card interactions in the game.
+
+### Methods:
+1) `__init__(self, card_list, sun_value)` : Initializes the menu bar with the provided list of cards and sun value.
+2) `loadFrame(self, name)` : Loads the background frame for the menu.
+3) `update(self, current_time)` : Updates the state of the cards in the menu based on the current time.
+4) `createImage(self, x, y, num)` : Creates a custom image for the menu bar based on the number of cards.
+5) `setupCards(self, card_list)` : Sets up the cards in the menu bar.
+6) `checkCardClick(self, mouse_pos)` : Checks if a card has been clicked and is valid to select.
+7) `checkMenuBarClick(self, mouse_pos)` : Checks if the menu bar itself has been clicked.
+8) `decreaseSunValue(self, value)` : Decreases the sun value by the specified amount.
+9) `increaseSunValue(self, value)` : Increases the sun value by the specified amount.
+10) `setCardFrozenTime(self, plant_name)` : Sets the frozen time for a specific plant's card.
+11) `drawSunValue(self)` : Draws the sun value on the menu bar.
+12) `draw(self, surface)` : Draws the menu bar and its components onto the surface.
+
+### Summary:
+The `MenuBar` class is responsible for rendering and managing the interaction of cards in the game’s UI, ensuring players can select and interact with cards based on their available sun value.
+
+---
+
+## `Panel`
+### Use:
+The `Panel` class represents the panel where players select cards. It allows for adding and removing cards and managing the interaction with the selected cards.
+
+### Methods:
+1) `__init__(self, card_list, sun_value)` : Initializes the panel with a list of cards and sun value.
+2) `loadFrame(self, name)` : Loads the background frame for the panel.
+3) `loadImages(self, sun_value)` : Loads the necessary images for the panel, including the sun value display.
+4) `setupCards(self, card_list)` : Sets up the cards in the panel.
+5) `checkCardClick(self, mouse_pos)` : Checks if a card has been clicked for selection or removal.
+6) `addCard(self, card)` : Adds a selected card to the panel.
+7) `deleteCard(self, index)` : Deletes a card from the panel.
+8) `checkStartButtonClick(self, mouse_pos)` : Checks if the start button has been clicked.
+9) `getSelectedCards(self)` : Returns the list of selected card indices.
+10) `draw(self, surface)` : Draws the panel and its components, including selected cards and sun value.
+
+### Summary:
+The `Panel` class manages the player's card selection and displays the selected cards on the UI. It ensures players can select up to a fixed number of cards and begin the game with their selections.
+
+---
+
+## `MoveCard`
+### Use:
+The `MoveCard` class represents a card in motion, typically when being moved into the player's deck or hand.
+
+### Methods:
+1) `__init__(self, x, y, card_name, plant_name, scale=0.78)` : Initializes the moving card with position, name, and scale.
+2) `loadFrame(self, name, scale)` : Loads the image for the moving card.
+3) `checkMouseClick(self, mouse_pos)` : Checks if the mouse click is within the moving card’s bounds.
+4) `createShowImage(self)` : Creates a visual representation of the moving card.
+5) `update(self, left_x, current_time)` : Updates the card's position based on the current time.
+6) `draw(self, surface)` : Draws the moving card onto the surface.
+
+### Summary:
+The `MoveCard` class handles the behavior of cards that are being moved within the game. It is used for animating cards entering the player's deck or hand.
+
+---
+
+## `MoveBar`
+### Use:
+The `MoveBar` class manages a bar that contains cards that move towards the player. It generates new cards at regular intervals and allows for interaction with them.
+
+### Methods:
+1) `__init__(self, card_pool)` : Initializes the move bar with a pool of cards.
+2) `loadFrame(self, name)` : Loads the background frame for the move bar.
+3) `createCard(self)` : Creates a new card in the move bar.
+4) `update(self, current_time)` : Updates the movement of the cards in the move bar.
+5) `checkCardClick(self, mouse_pos)` : Checks if a card has been clicked in the move bar.
+6) `checkMenuBarClick(self, mouse_pos)` : Checks if the move bar itself has been clicked.
+7) `deleateCard(self, card)` : Deletes a card from the move bar.
+8) `draw(self, surface)` : Draws the move bar and its components, including the cards.
+
+### Summary:
+The `MoveBar` class handles the cards that appear and move towards the player. It manages the creation, movement, and interaction with these cards during the gameplay.
+
+
+
+
+
+
+
 
 
  
