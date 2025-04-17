@@ -1,5 +1,5 @@
 # PlantsVsZombies
-PlantsVsZombie is a classic game in which player prtotects their home from the coming horde of zombies, by strategically planting various types of plants with unique abilities.These plants, ranging from pea shooters to sunflowers, are used to fend off the zombies and prevent them from reaching the house.The game is designed to encourage strategic thinking and adaptability, offering a deeper and more rewarding experience as players advance.
+Plants vs. Zombies is a classic strategy game recreated in Python, where the player defends their home from an oncoming horde of zombies by strategically placing a variety of plants, each with unique abilities. From powerful Peashooters to energy-generating Sunflowers, these plants are deployed across a grid-based lawn to stop the advancing undead. As the game progresses, players must think critically and adapt their tactics to increasingly challenging waves of enemies, making for a deeply engaging and rewarding gameplay experience.
 
 # Resources
 #  Plants vs. Zombies : Bullet Encyclopedia
